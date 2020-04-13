@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+<body class="hold-transition skin-yellow-light sidebar-mini">
+    <div class="wrapper">
+        <% include ../partials/header %>
+        
+        <% include ../partials/sidebar %>
+
+        <div class="content-wrapper">
+        
+            <!-- Main content -->
+            <section class="content">
+                <!-- Default box -->
+                <form method="POST" action="/user-profile/edit" enctype="multipart/form-data">
+
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Kullanıcı Ekle</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Ad</label>
+                                    <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Ad" required>
+                                </div>
+    
+                                <div class="form-group">
+                                    <label>Soyad</label>
+                                    <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Soyad" required> 
+                                </div>
+                               
+                            </div>
+    
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="text" class="form-control" id="email" name="email" placeholder="Email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Telefon</label>
+                                    <input type="number" class="form-control" id="phone" name="phone" placeholder="Telefon" required>
+                                </div>
+    
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="box-footer">
+                        <button type="submit" id="import" class="btn btn-info pull-right">Ekle</button>
+                    </div>
+                <!-- /.box -->
+                </form>
+            </section>
+            <!-- /.content -->
+        </div>
+
+    </div>
+    <!-- page script -->
+    <% include ../partials/script %>
+    <script>
+        $(function () {
+            //Initialize Select2 Elements
+            $('.select2').select2()
+        })
+        
+    </script>
+
+</body>
+</html>

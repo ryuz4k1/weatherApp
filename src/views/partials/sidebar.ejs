@@ -1,0 +1,69 @@
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <!-- Sidebar user panel -->
+        <div class="user-panel">
+        <div class="pull-left image">
+            <img src="<%= user.image %>"class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+            <p><%= user.firstName %> <%= user.lastName %></p>
+            <a href="/authorization/logout">Çıkış Yap</a>
+        </div>
+        </div>
+        <ul class="sidebar-menu">
+            <li class="header">MENU</li>
+
+            <li class="treeview">
+                <a href="#">
+                <i class="fa fa-shopping-cart"></i> <span>Menu1</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="active"><a href="/location"><i class="fa fa-list-ul"></i>Location</a></li>
+                </ul>
+            </li>
+
+
+            <li class="treeview">
+                <a href="#">
+                <i class="glyphicon glyphicon-list-alt"></i> <span>Menu2</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="active"><a href="/weather"><i class="fa fa-list-ul"></i>Weather</a></li>
+                </ul>
+            </li>
+    
+            <li class="treeview">
+                <a href="#">
+                <i class="fa fa-bar-chart"></i> <span>Menu3</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="/user-profile"><i class="fa fa-bar-chart"></i>User Profile</a></li>
+                </ul>
+            </li>
+
+            <li class="treeview">
+                <a href="#">
+                <i class="fa fa-map"></i> <span>Menu4</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="/reports"><i class="fa fa-list-ul"></i>Reports</a></li>
+                </ul>
+            </li>
+
+        </ul>
+    </section>
+    <!-- /.sidebar -->
+</aside>

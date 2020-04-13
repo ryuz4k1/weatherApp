@@ -1,0 +1,13 @@
+{
+    "app": {
+        "port": 5000
+    },
+    "permission": {
+        "/weather": 1,
+        "/reports": 2,
+        "/user-profile": 4,
+        "/user-profile/add": 8,
+        "/location-edit": 16,
+        "/location-edit/add": 32
+    }
+}

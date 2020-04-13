@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+<body class="hold-transition skin-yellow-light sidebar-mini">
+    <div class="wrapper">
+        <% include ../partials/header %>
+        
+        <% include ../partials/sidebar %>
+
+        <div class="content-wrapper">
+        
+            <!-- Main content -->
+            <section class="content">
+                <!-- Default box -->
+                <form method="POST" action="/location/add">
+
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Add Location</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Place Name (Required)</label>
+                                    <input type="text" class="form-control" id="placeName" name="placeName" placeholder="Place Name" required>
+                                </div>
+                            </div>
+    
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Location Type (Optional):</label>
+                                    <select class="form-control select2" name="locationType" id="locationType">
+                                        <option value='first'>Select Location Type</option>                             
+                                        <option value="address">Address</option>                             
+                                        <option value="city">City</option>                             
+                                        <option value="locality">Locality</option>
+                                        <option value="locid">Locid</option>                             
+                                        <option value="poi">Poi</option>                             
+                                        <option value="pws">Pws</option>                             
+                                        <option value="state">State</option>                                                   
+                                    </select>
+                                </div>
+    
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="box-footer">
+                        <button type="submit" id="import" class="btn btn-info pull-right">Add</button>
+                    </div>
+                <!-- /.box -->
+                </form>
+            </section>
+            <!-- /.content -->
+        </div>
+
+    </div>
+    <!-- page script -->
+    <% include ../partials/script %>
+    <script>
+        $(function () {
+            //Initialize Select2 Elements
+            $('.select2').select2()
+        })
+        
+    </script>
+
+</body>
+</html>
