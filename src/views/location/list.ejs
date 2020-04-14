@@ -11,9 +11,7 @@
 
         <div class="content-wrapper">
             
-            <!-- Main content -->
             <section class="content">
-                <!-- Default box -->
                 <div class="box">
                     <div class="box-header with-border">
                         <h3 class="box-title">Locations</h3>
@@ -66,12 +64,9 @@
                             </tbody>
                         </table>
                     </div>
-                    <!-- /.box-body -->
                 </div>
-                <!-- /.box -->
         
             </section>
-            <!-- /.content -->
         </div>
 
     </div>
@@ -83,7 +78,7 @@
             var urlParams;
             (window.onpopstate = function () {
                 var match,
-                    pl     = /\+/g,  // Regex for replacing addition symbol with a space
+                    pl     = /\+/g, 
                     search = /([^&=]+)=?([^&]*)/g,
                     decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
                     query  = window.location.search.substring(1);
