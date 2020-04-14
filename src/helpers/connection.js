@@ -11,7 +11,8 @@ class Connection {
             dialect: "postgres",
             dialectOptions: { decimalNumbers: true },
             operatorsAliases: false,
-            logging:false, //Showing query
+            logging: false,
+            benchmark: true,
             pool: {
                 max: 5,
                 min: 0,

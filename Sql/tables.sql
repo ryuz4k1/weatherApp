@@ -87,3 +87,18 @@ CREATE TABLE "weather" (
 	"imperial" JSON,
 	"createOn" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
+CREATE TABLE "log" (
+	"logId" SERIAL PRIMARY KEY NOT NULL,
+	"isActive" BOOL DEFAULT false NOT NULL,
+	"isDeleted" BOOL DEFAULT false NOT NULL,
+	"userId" INT,
+	"queryTime" DATE,
+	"locationNearId" INT,
+	"userIpAddress" VARCHAR(25),
+	"queryResult" JSON,
+	"queryResultTime" INTEGER,
+	"queryStatus" SMALLINT,
+	"createOn" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

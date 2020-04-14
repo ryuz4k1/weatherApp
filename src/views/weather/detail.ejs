@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+<body class="hold-transition skin-yellow-light sidebar-mini">
+    <div class="wrapper">
+        <% include ../partials/header %>
+        
+        <% include ../partials/sidebar %>
+
+        <div class="content-wrapper">
+            
+            <!-- Main content -->
+            <section class="content">
+                <!-- Default box -->
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Weather Detail - <%= locationName %></h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-6"> 
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <th style="width:50%">locationNearId</th>
+                                                <td><%= locationNearId %></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:50%">epoch</th>
+                                                <td><%= result.epoch %></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:50%">humidity</th>
+                                                <td><%= result.humidity %></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:50%">latitude</th>
+                                                <td><%= result.latitude %></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:50%">longitude</th>
+                                                <td><%= result.longitude %></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:50%">neighborhood</th>
+                                                <td><%= result.neighborhood %></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:50%">stationID</th>
+                                                <td><%= result.stationID %></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:50%">uv</th>
+                                                <td><%= result.uv %></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:50%">winddir</th>
+                                                <td><%= result.winddir %></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:50%">obsTimeLocal</th>
+                                                <td><%= result.obsTimeLocal %></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:50%">obsTimeUtc</th>
+                                                <td><%= result.obsTimeUtc %></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:50%">qcStatus</th>
+                                                <td><%= result.qcStatus %></td>
+                                            </tr>
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6"> 
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <th style="width:50%">realtimeFrequency</th>
+                                                <td><%= result.realtimeFrequency %></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:50%">softwareType</th>
+                                                <td><%= result.softwareType %></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:50%">solarRadiation</th>
+                                                <td><%= result.solarRadiation %></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:50%">temp</th>
+                                                <td><%= result.imperial.temp %></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:50%">heatIndex</th>
+                                                <td><%= result.imperial.heatIndex %></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:50%">dewpt</th>
+                                                <td><%= result.imperialdewpt %></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:50%">windChill</th>
+                                                <td><%= result.imperial.windChill %></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:50%">windSpeed</th>
+                                                <td><%= result.imperial.windSpeed %></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:50%">windGust</th>
+                                                <td><%= result.imperial.windGust %></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:50%">pressure</th>
+                                                <td><%= result.imperial.pressure %></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:50%">precipRate</th>
+                                                <td><%= result.imperial.precipRate %></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:50%">precipTotal</th>
+                                                <td><%= result.imperial.precipTotal %></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:50%">elev</th>
+                                                <td><%= result.imperial.elev %></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <div id="map" style="width:500px;height:380px;"></div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+        
+            </section>
+            <!-- /.content -->
+        </div>
+
+    </div>
+
+    <% include ../partials/script %>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnR15eXQqNQ7PsSZZOXWosdh4OVSaZC3M&callback=initMap" async defer> </script>
+    <script>
+        var map;
+        function initMap() {
+            var jsonData = $.ajax({
+            type: "GET",
+            url: "/weather/getCoordinates/<%= locationNearId %>",
+            dataType: "json",
+            async: true,
+            success: function(result) {
+                console.log(result.data)
+                var uluru = {lat: parseFloat(result.data.latitude), lng: parseFloat(result.data.longitude)};
+                var map = new google.maps.Map(document.getElementById('map'), {zoom: 15, center: uluru});
+                var contentString = '<div id="content">'+
+                    '<div id="siteNotice">'+
+                    '</div>'+
+                    '<h1 id="firstHeading" class="firstHeading"><%= locationName %></h1>'+
+                    '<div id="bodyContent">'+
+                        '<p><%= result.imperial.temp %></p>' +
+                        '<p><%= result.imperial.hitIndex %></p>' +
+                        '<p><%= result.imperial.windChill %></p>' +
+                        '<p><%= result.imperial.windSpeed %></p>' +
+                        '<p><%= result.imperial.elev %></p>' +         
+                    '</div>'+
+                    '</div>';
+
+                    var infowindow = new google.maps.InfoWindow({
+                    content: contentString
+                    });
+
+                    var marker = new google.maps.Marker({
+                        position: uluru,
+                        map: map,
+                        title: '<%= locationName %>'
+                    });
+                    marker.addListener('click', function() {
+                    infowindow.open(map, marker);
+                });
+
+            }
+        });
+
+       
+    }
+      </script>
+    <script>
+        $(function () {
+            
+            var urlParams;
+            (window.onpopstate = function () {
+                var match,
+                    pl     = /\+/g,  // Regex for replacing addition symbol with a space
+                    search = /([^&=]+)=?([^&]*)/g,
+                    decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+                    query  = window.location.search.substring(1);
+
+                urlParams = {};
+                while (match = search.exec(query))
+                urlParams[decode(match[1])] = decode(match[2]);
+            })();
+            
+            $("#datatable").DataTable( {
+                aLengthMenu: [
+                    [25, 50, 100, 200, -1],
+                    [25, 50, 100, 200, "Tamamı"]
+                ],
+                iDisplayLength: 25,
+                language: {
+                    "sDecimal":        ",",
+                    "sEmptyTable":     "Tabloda herhangi bir veri mevcut değil",
+                    "sInfo":           "_TOTAL_ kayıttan _START_ - _END_ arasındaki kayıtlar gösteriliyor",
+                    "sInfoEmpty":      "Kayıt yok",
+                    "sInfoFiltered":   "(_MAX_ kayıt içerisinden bulunan)",
+                    "sInfoPostFix":    "",
+                    "sInfoThousands":  ".",
+                    "sLengthMenu":     "Sayfada _MENU_ kayıt göster",
+                    "sLoadingRecords": "Yükleniyor...",
+                    "sProcessing":     "İşleniyor...",
+                    "sSearch":         "Ara:",
+                    "sZeroRecords":    "Eşleşen kayıt bulunamadı",
+                    "oPaginate": {
+                        "sFirst":    "İlk",
+                        "sLast":     "Son",
+                        "sNext":     "Sonraki",
+                        "sPrevious": "Önceki"
+                    },
+                    "oAria": {
+                        "sSortAscending":  ": artan sütun sıralamasını aktifleştir",
+                        "sSortDescending": ": azalan sütun sıralamasını aktifleştir"
+                    },
+                    "select": {
+                        "rows": {
+                            "_": "%d kayıt seçildi",
+                            "0": "",
+                            "1": "1 kayıt seçildi"
+                        }
+                    }
+                }
+            });
+
+            $(function () {
+                //Initialize Select2 Elements
+                $('.select2').select2()
+            });
+        });
+    </script>
+
+</body>
+</html>

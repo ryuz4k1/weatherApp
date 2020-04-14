@@ -13,7 +13,10 @@ class UserController {
     async list(req, res) {
         try {
             const users = await User.findAll({
-                order: [["createOn", "ASC"]]
+                order: [["createOn", "ASC"]],
+            },{
+                logging: true,
+                benchmark: true
             });
 
             for (let i = 0; i < users.length; i++) {

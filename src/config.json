@@ -4,10 +4,9 @@
     },
     "permission": {
         "/weather": 1,
-        "/reports": 2,
-        "/user-profile": 4,
-        "/user-profile/add": 8,
-        "/location-edit": 16,
-        "/location-edit/add": 32
+        "/user-profile": 2,
+        "/user-profile/add": 4,
+        "/location": 8,
+        "/location/add": 16
     }
 }

@@ -6,6 +6,8 @@ const Utils                             =   require("../helpers/utils");
 const Types                             =   require("../helpers/types");
 const DataService                       =   require("../services/data-service");
 const Weather                           =   require("../models/weather-model");
+
+
 class HomeController {
 
     constructor(router) {
@@ -18,33 +20,6 @@ class HomeController {
     
     // ... Index
     async index(req, res) {
-
-        /*
-        let weather = await this.dataService.weather("KAZTUCSO539", Types.QueryReuired.FORMAT, Types.QueryReuired.UNITS);
-        for (let i = 0; i < weather.observations.length; i++) {
-            const e = weather.observations[i];
-            await Weather.create({
-                isActive: true,
-                isDeleted: false,
-                country: e.country,
-                epoch: e.epoch,
-                humidity: e.humidity,
-                latitude: e.lat,
-                longitude: e.lon,
-                neighborhood: e.neighborhood,
-                obsTimeLocal: e.obsTimeLocal,
-                obsTimeUtc: e.obsTimeUtc,
-                qcStatus: e.qcStatus,
-                realtimeFrequency: e.realtimeFrequency,
-                softwareType: e.softwareType,
-                solarRadiation: e.solarRadiation,
-                stationID: e.stationID,
-                uv: e.uv,
-                winddir: e.winddir,
-                imperial: e.imperial
-            });
-        };
-        */
 
         const data = {
             page: {

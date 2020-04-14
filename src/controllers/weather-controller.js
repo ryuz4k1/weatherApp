@@ -7,8 +7,11 @@ const Types                             =   require("../helpers/types");
 const Location                          =   require("../models/location-model");
 const LocationNear                      =   require("../models/location-near-model");
 const Weather                           =   require("../models/weather-model");
+const Connection                        = require("../helpers/connection");
 
-
+// ... Connection
+const connection = new Connection();
+const sequelize  = connection.postgres();
 
 class WeatherController {
 
@@ -17,19 +20,23 @@ class WeatherController {
         this.routers();
 
         this.utils = new Utils();
+
     }
     
     async list(req, res) {
         try {
             let locationNears = [];
             let weathers = [];
+            let locations = [];
 
-            let locations = await Location.findAll({
+            locations = await Location.findAll({
                 where: {
                     isDeleted: false
                 },
                 order: [["createOn", "ASC"]]
             });
+
+           
 
             if(req.query.locationId) {
                 locationNears = await LocationNear.findAll({
@@ -48,17 +55,18 @@ class WeatherController {
                     },
                     order: [["createOn", "ASC"]]
                 });
+
+
                 for (let i = 0; i < weathers.length; i++) {
                     const d = weathers[i];
                     d.date  = this.utils.dateFormatter(d.createOn);
                 };
-            };
 
-            //console.log(locations);
+            };
             
             const data = {
                 page: {
-                    title: "Locations"
+                    title: "Weather"
                 },
                 user: req.session.user,
                 locations: locations,
@@ -79,6 +87,59 @@ class WeatherController {
         }
     }
 
+    async detail(req, res) {
+        try {
+
+            const locationNear = await LocationNear.findOne({
+                where: {
+                    isActive: true,
+                    isDeleted: false,
+                    locationNearId: req.params.locationNearId
+                }
+            });
+
+            const weather = await Weather.findOne({
+                where: {
+                    locationNearId: locationNear.locationNearId
+                }
+            });
+
+
+            const data = {
+                page: {
+                    title: "Weather Detail"
+                },
+                user: req.session.user,
+                locationName: locationNear.stationName,
+                locationNearId: req.params.locationNearId,
+                result: weather          
+            };
+
+            res.render("./weather/detail.ejs", data)
+        } 
+        catch (error) {
+            const data = {
+                result: error
+            }    
+            return res.render("./home/error.ejs", data);
+        }
+    }
+
+    async getCoordinates(req,res) {
+        try {
+            const coordinate = await LocationNear.findOne({
+                where: {
+                    locationNearId: req.params.locationNearId
+                }
+            });
+
+            return res.send(this.utils.setResult(Types.Status.SUCCESS, "success", coordinate));
+        } catch (error) {
+            return res.send(error);
+        }
+    }
+   
+
     error(req, res) {
 
         const data = {
@@ -92,6 +153,8 @@ class WeatherController {
     // ... Register routers
     routers() {
         this.router.get("/", this.list.bind(this));
+        this.router.get("/detail/:locationNearId", this.detail.bind(this));
+        this.router.get("/getCoordinates/:locationNearId", this.getCoordinates.bind(this));
         this.router.get("/error", this.error.bind(this));
     }
 }

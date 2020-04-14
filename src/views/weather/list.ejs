@@ -24,7 +24,7 @@
                                 <div class="form-group">
                                     <label>Locations :</label>
                                     <select class="form-control select2" name="locationId" id="locationId" onChange="window.location='?locationId='+this.value">
-                                        <option value="0">Select Location</option>   
+                                        <option value="0">Select Location</option>
                                         <% locations.forEach(data => { %>
                                             <tr>
                                                     <%
@@ -44,7 +44,7 @@
                                 <div class="form-group">
                                     <label>Near Locations :</label>
                                     <select class="form-control select2" name="locationNearId" id="locationNearId">
-                                        <option value="0">Location Near</option>                             
+                                        <option value="0">Location Near</option>   
                                         <% locationNears.forEach(data => { %>
                                             <tr>
                                                     <%
@@ -100,7 +100,7 @@
                                 <tbody>
                                     <% result.forEach(data => { %>
                                         <tr>
-                                            <td><%= data.locationId %></td>
+                                            <td><%= data.locationNearId %></td>
                                             <td><%= data.humidity %></td>
                                             <td><%= data.softwareType %></td>
                                             <td><%= data.solarRadiation %></td> 
@@ -108,7 +108,7 @@
                                             <td><%= data.uv %></td>
                                             <td><%= data.date %></td>
                                             <td style="width: 10%">
-                                                <a href="/wheater/detail/<%= data.locationId %>" class="btn btn-primary btn-xs">Detail</a>
+                                                <a href="/weather/detail/<%= data.locationNearId %>" class="btn btn-primary btn-xs">Detail</a>
                                             </td>
                                         </tr>
                                     <%});%>

@@ -4,7 +4,8 @@ const moment                            =   require("moment");
 const packageJson                       =   require("../../package.json");
 const Utils                             =   require("../helpers/utils");
 const Types                             =   require("../helpers/types");
-
+const DataService                       =   require("../services/data-service");
+const Weather                           =   require("../models/weather-model");
 
 
 class HomeController {
@@ -14,19 +15,20 @@ class HomeController {
         this.routers();
 
         this.utils = new Utils();
+        this.dataService = new DataService();
     }
     
     // ... Index
     async index(req, res) {
-        
+
         const data = {
             page: {
                 title: "Dashboard"
             },
             user: req.session.user,
             version: packageJson.version
-        }
-
+        };
+        
         return res.render("./home/dashboard.ejs", data);
     }
 
