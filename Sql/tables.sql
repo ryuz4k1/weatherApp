@@ -44,3 +44,46 @@ CREATE TABLE "location" (
 	"type" VARCHAR(255) NOT NULL,
 	"createOn" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
+CREATE TABLE "locationNear" (
+	"locationNearId" SERIAL PRIMARY KEY NOT NULL,
+	"locationId" INT,
+	"isActive" BOOL DEFAULT false NOT NULL,
+	"isDeleted" BOOL DEFAULT false NOT NULL,
+	"stationId" VARCHAR(255),
+	"stationName" VARCHAR(255) NOT NULL,
+	"partnerId" VARCHAR(255),
+	"qcStatus" VARCHAR(10),
+	"updateTimeUtc" TIMESTAMP,
+	"latitude" DECIMAL NOT NULL,
+	"longitude" DECIMAL NOT NULL,
+	"distanceKm" DECIMAL,
+	"distanceMi" DECIMAL,
+	"createOn" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE "weather" (
+	"weatherId" SERIAL PRIMARY KEY NOT NULL,
+	"locationNearId" INT,
+	"isActive" BOOL DEFAULT false NOT NULL,
+	"isDeleted" BOOL DEFAULT false NOT NULL,
+	"country" VARCHAR(10),
+	"epoch" INT,
+	"humidity" INT,
+	"latitude" DECIMAL,
+	"longitude" DECIMAL,
+	"neighborhood" VARCHAR(255),
+	"obsTimeLocal" DATE,
+	"obsTimeUtc" DATE,
+	"qcStatus" VARCHAR(10),
+	"realtimeFrequency" DECIMAL,
+	"softwareType" VARCHAR(255),
+	"solarRadiation" DECIMAL,
+	"stationID" VARCHAR(255),
+	"uv" DECIMAL,
+	"winddir" DECIMAL,
+	"imperial" JSON,
+	"createOn" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

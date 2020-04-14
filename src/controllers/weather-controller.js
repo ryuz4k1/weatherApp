@@ -4,10 +4,13 @@ const moment                            =   require("moment");
 const packageJson                       =   require("../../package.json");
 const Utils                             =   require("../helpers/utils");
 const Types                             =   require("../helpers/types");
+const Location                          =   require("../models/location-model");
+const LocationNear                      =   require("../models/location-near-model");
+const Weather                           =   require("../models/weather-model");
 
 
 
-class HomeController {
+class WeatherController {
 
     constructor(router) {
         this.router = router;
@@ -16,18 +19,64 @@ class HomeController {
         this.utils = new Utils();
     }
     
-    // ... Index
-    async index(req, res) {
-        
-        const data = {
-            page: {
-                title: "Dashboard"
-            },
-            user: req.session.user,
-            version: packageJson.version
-        }
+    async list(req, res) {
+        try {
+            let locationNears = [];
+            let weathers = [];
 
-        return res.render("./home/dashboard.ejs", data);
+            let locations = await Location.findAll({
+                where: {
+                    isDeleted: false
+                },
+                order: [["createOn", "ASC"]]
+            });
+
+            if(req.query.locationId) {
+                locationNears = await LocationNear.findAll({
+                    where: {
+                        locationId: req.query.locationId,
+                        isDeleted: false
+                    },
+                    order: [["createOn", "ASC"]]
+                });
+            };
+
+            if (req.query.locationId && req.query.locationNearId && req.query.locationId != 0 && req.query.locationNearId != 0) {
+                weathers = await Weather.findAll({
+                    where: {
+                        locationNearId: req.query.locationNearId
+                    },
+                    order: [["createOn", "ASC"]]
+                });
+                for (let i = 0; i < weathers.length; i++) {
+                    const d = weathers[i];
+                    d.date  = this.utils.dateFormatter(d.createOn);
+                };
+            };
+
+            //console.log(locations);
+            
+            const data = {
+                page: {
+                    title: "Locations"
+                },
+                user: req.session.user,
+                locations: locations,
+                locationNears: locationNears,
+                locationId: req.query.locationId,
+                locationNearId: req.query.locationNearId,
+                result: weathers
+            };
+
+            return res.render("./weather/list.ejs", data)
+            
+        } 
+        catch (error) {
+            const data = {
+                result: error
+            }    
+            return res.render("./home/error.ejs", data);
+        }
     }
 
     error(req, res) {
@@ -40,22 +89,11 @@ class HomeController {
     }
 
 
-    async enviroment(req, res, next){
-        try {
-            const envData = await config[process.env.NODE_ENV || 'development'];
-            res.json(envData);
-        } 
-        catch (error) {
-            console.log(error);
-        }
-    }
-
     // ... Register routers
     routers() {
-        this.router.get("/", this.index.bind(this));
+        this.router.get("/", this.list.bind(this));
         this.router.get("/error", this.error.bind(this));
-        this.router.get("/enviroment", this.enviroment.bind(this));
     }
 }
 
-module.exports = HomeController;
+module.exports = WeatherController;

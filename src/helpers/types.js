@@ -15,7 +15,9 @@ const UserType = {
 
 const QueryReuired = {
     LANGUAGE: "tr-TR",
-    FORMAT: "json"
+    FORMAT: "json",
+    PRODUCT: "pws",
+    UNITS: "e"
 }
 
 module.exports = {
